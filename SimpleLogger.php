@@ -17,8 +17,23 @@ class SimpleLogger {
 	private $filePtr;
 
 	function __construct($path = "", $logfileName = "logfile.txt") {
-		$this->filePtr = fopen($path . $logfileName, "a");	
-   }
+
+    $fullname = $path . $logfileName;
+    try {
+		  
+        if ( !file_exists($path) ) {
+          throw new Exception('File not found.');
+        }
+
+        $this->filePtr = fopen($path . $logfileName, "a");	
+        if ( !$this->filePtr ) {
+          throw new Exception('File open failed.');
+        }
+    }
+    catch ( Exception $e ) {
+       $this->filePtr = fopen("logfile.txt", "a"); // If the specified folder or file can not be opened, place a default logfile in the current folder
+    } 
+  }
 
    /*
     * Create an entry in the logfile
@@ -29,7 +44,8 @@ class SimpleLogger {
    function log($text,$header = "d") {
    		$date = date(DATE_ATOM);
 
-   		switch($header) {
+   		// Set the header tag
+      switch($header) {
 
    			case "i":
    				$headerText = "INFO";
@@ -45,12 +61,13 @@ class SimpleLogger {
    				break;
    		}
 
-   		$logLine = $date . " [ " . $headerText . " ]: " . $text . "\n"; 
+   		// Construct the log entry and write to the logfile
+      $logLine = $date . " [ " . $headerText . " ]: " . $text . "\n"; 
    		$this->writeToFile($logLine);
    }
 
    function writeToFile($logText) {
-   		fwrite($this->filePtr, $logText);
+      fwrite($this->filePtr, $logText);
    }
 
    function close() {
