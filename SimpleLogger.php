@@ -5,8 +5,9 @@
  * 
  * Usage: 
  *
- *   $var = new SimpleLogger(PATH,LOGFILENAME)
- *   PATH should have no leading slash, and include a trailing slash.  Defaults to current folder
+ *   $logger = new SimpleLogger(PATH,LOGFILENAME)
+ *
+ *   PATH should have no leading slash, and include a trailing slash.  (Default is current folder)
  *   
  *   All logs are appended to the current logfile.
  */
@@ -22,8 +23,8 @@ class SimpleLogger {
    /*
     * Create an entry in the logfile
     *
-    * @param
-    * @param
+    * @param string $text     The text string to write to the log file
+    * @param string $header   Text of the log entry header tag. Can be any string, or use presets (d='DEBUG', i='INFO', e="ERROR")
     */
    function log($text,$header = "d") {
    		$date = date(DATE_ATOM);
