@@ -5,9 +5,9 @@
  * 
  * Usage: 
  *
- *   $logger = new SimpleLogger(PATH,LOGFILENAME)
+ *   $logger = new SimpleLogger($pathToLogFile)
  *
- *   PATH should have no leading slash, and include a trailing slash.  (Default is current folder)
+ *   Will output data to file specified in $pathToLogFile 
  *   
  *   All logs are appended to the current logfile.
  */
@@ -16,16 +16,10 @@ class SimpleLogger {
 
 	private $filePtr;
 
-	function __construct($path = "", $logfileName = "logfile.txt") {
+	function __construct($pathToLogFile = "logfile.txt") {
 
-    $fullname = $path . $logfileName;
     try {
-		  
-        if ( !file_exists($path) ) {
-          throw new Exception('File not found.');
-        }
-
-        $this->filePtr = fopen($path . $logfileName, "a");	
+        $this->filePtr = fopen($pathToLogFile, "a");	
         if ( !$this->filePtr ) {
           throw new Exception('File open failed.');
         }
